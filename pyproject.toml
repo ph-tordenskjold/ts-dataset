@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ts-dataset"
+version = "0.1.0"
+description = "Tordenskjold common dataset format and more"
+authors = ["ph <ph@tordenskjold.space>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "ts_dataset"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+jsonschema = "^4.20.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

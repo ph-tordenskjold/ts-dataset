@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "properties": {
+    "scene_id": {
+      "type": "string"
+    },
+    "i": {
+      "type": "integer"
+    },
+    "j": {
+      "type": "integer"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "bboxes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "w": {
+            "type": "number"
+          },
+          "h": {
+            "type": "number"
+          },
+          "class": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "w",
+          "h",
+          "class"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "images": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "scene_id",
+    "i",
+    "j",
+    "width",
+    "height",
+    "bboxes",
+    "images",
+    "meta",
+    "tags"
+  ]
+}

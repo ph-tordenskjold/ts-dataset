@@ -1,0 +1,12 @@
+{
+    "annotations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+  "additionalProperties": true,
+  "required": [
+    "annotations"
+  ]
+}
