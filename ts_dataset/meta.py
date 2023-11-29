@@ -4,7 +4,7 @@ import os
 
 import jsonschema
 
-import settings
+from ts_dataset import settings
 
 
 class TsJson(abc.ABC):
@@ -39,3 +39,17 @@ class TsJson(abc.ABC):
     @property
     def data(self):
         return self._data
+
+
+class TsAnnotation(TsJson):
+
+    def __init__(self, json_data: dict = None):
+        super().__init__(json_data)
+        self._schema = 'annotation_schema.json'
+
+
+class TsMTD(TsJson):
+
+    def __init__(self, json_data: dict = None):
+        super().__init__(json_data=json_data)
+        self._schema = 'mtd_schema.json'

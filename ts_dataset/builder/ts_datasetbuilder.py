@@ -1,4 +1,4 @@
-from dataset.ts_mtd import TsMTD
+from meta.ts_mtd import TsMTD
 
 
 class TsDatasetBuilder:

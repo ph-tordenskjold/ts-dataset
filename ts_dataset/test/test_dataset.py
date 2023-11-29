@@ -2,9 +2,9 @@ import json
 import os
 import unittest
 
-import settings
-from dataset.ts_annotation import TsAnnotation
-from dataset.ts_dataset import TsDataset
+from ts_dataset import settings
+from ts_dataset.dataset import TsDataset
+from ts_dataset.meta import TsAnnotation
 
 
 class TestDataset(unittest.TestCase):

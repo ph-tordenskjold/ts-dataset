@@ -4,8 +4,8 @@ import unittest
 
 import jsonschema.exceptions
 
-import settings
-from dataset.ts_annotation import TsAnnotation
+from ts_dataset import settings
+from ts_dataset.meta import TsAnnotation
 
 
 class TestAnnotation(unittest.TestCase):
