@@ -9,8 +9,8 @@ from ts_dataset.meta import TsMTD
 
 
 class TestMTD(unittest.TestCase):
-    mtd_path = os.path.join(settings.BASE_DIR, 'test', 'data', 'test_dataset1', 'mtd.json')
-    mtd_error_path = os.path.join(settings.BASE_DIR, 'test', 'data', 'mtd_error.json')
+    mtd_path = os.path.join(settings.TEST_DATA, 'test_dataset1', 'mtd.json')
+    mtd_error_path = os.path.join(settings.TEST_DATA, 'mtd_error.json')
 
     def test_read_mtd(self):
         a = TsMTD.load(self.mtd_path)

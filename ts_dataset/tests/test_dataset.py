@@ -8,10 +8,10 @@ from ts_dataset.meta import TsAnnotation
 
 
 class TestDataset(unittest.TestCase):
-    dataset_path = os.path.join(settings.BASE_DIR, 'test', 'data', 'test_dataset1')
-    error_path = os.path.join(settings.BASE_DIR, 'test', 'data', 'test_error_dataset')
-    annotation_path1 = os.path.join(settings.BASE_DIR, 'test', 'data', 'test_dataset1', 'annotation1.json')
-    annotation_path2 = os.path.join(settings.BASE_DIR, 'test', 'data', 'test_dataset1', 'test_folder_123',
+    dataset_path = os.path.join(settings.TEST_DATA, 'test_dataset1')
+    error_path = os.path.join(settings.TEST_DATA, 'test_error_dataset')
+    annotation_path1 = os.path.join(settings.TEST_DATA, 'test_dataset1', 'annotation1.json')
+    annotation_path2 = os.path.join(settings.TEST_DATA, 'test_dataset1', 'test_folder_123',
                                     'annotation2.json')
 
     def test_find_mtd(self):

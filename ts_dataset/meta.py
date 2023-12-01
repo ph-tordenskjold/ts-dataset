@@ -33,9 +33,6 @@ class TsJson(abc.ABC):
     def __repr__(self):
         return f"{self.data}"
 
-    def __str__(self):
-        return f"{self.data}"
-
     @property
     def data(self):
         return self._data
@@ -46,6 +43,25 @@ class TsAnnotation(TsJson):
     def __init__(self, json_data: dict = None):
         super().__init__(json_data)
         self._schema = 'annotation_schema.json'
+
+    def crop(self, x1, y1, x2, y2) -> 'TsAnnotation':  # TODO add tests
+        data = self.data.copy()
+        annotations = data["annotations"]
+        cropped_annotations = []
+        for annotation in annotations:
+            x, y, w, h = annotation["x"], annotation["y"], annotation["w"], annotation["h"]
+            x = max(0, min(x - x1, x2 - x1))
+            y = max(0, min(y - y1, y2 - y1))
+            w = min(x2 - x1 - x, w)
+            h = min(y2 - y1 - y, h)
+            if w > 0 and h > 0:
+                annotation["x"] = x
+                annotation["y"] = y
+                annotation["w"] = w
+                annotation["h"] = h
+                cropped_annotations.append(annotation)
+        data["annotations"] = cropped_annotations
+        return TsAnnotation(json_data=data)
 
 
 class TsMTD(TsJson):

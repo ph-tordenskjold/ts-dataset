@@ -9,8 +9,8 @@ from ts_dataset.meta import TsAnnotation
 
 
 class TestAnnotation(unittest.TestCase):
-    annotation_path = os.path.join(settings.BASE_DIR, 'test', 'data', 'test_dataset1', 'annotation1.json')
-    annotation_error_path = os.path.join(settings.BASE_DIR, 'test', 'data', 'annotation_error.json')
+    annotation_path = os.path.join(settings.TEST_DATA, 'test_dataset1', 'annotation1.json')
+    annotation_error_path = os.path.join(settings.TEST_DATA, 'annotation_error.json')
     with open(annotation_path) as f:
         annotation1 = json.load(f)
 

@@ -16,7 +16,7 @@
     "height": {
       "type": "integer"
     },
-    "bboxes": {
+    "annotations": {
       "type": "array",
       "items": {
         "type": "object",
@@ -62,14 +62,14 @@
       }
     }
   },
-  "additionalProperties": true,
   "required": [
     "scene_id",
+    "image",
     "i",
     "j",
     "width",
     "height",
-    "bboxes",
+    "annotations",
     "images",
     "meta",
     "tags"
