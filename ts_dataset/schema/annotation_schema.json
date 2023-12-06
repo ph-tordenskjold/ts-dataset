@@ -33,8 +33,8 @@
           "h": {
             "type": "number"
           },
-          "class": {
-            "type": "integer"
+          "label": {
+            "type": "string"
           }
         },
         "required": [
@@ -42,7 +42,7 @@
           "y",
           "w",
           "h",
-          "class"
+          "label"
         ],
         "additionalProperties": true
       }
@@ -64,7 +64,6 @@
   },
   "required": [
     "scene_id",
-    "image",
     "i",
     "j",
     "width",

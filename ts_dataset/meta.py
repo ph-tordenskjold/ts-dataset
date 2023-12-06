@@ -61,7 +61,18 @@ class TsAnnotation(TsJson):
                 annotation["h"] = h
                 cropped_annotations.append(annotation)
         data["annotations"] = cropped_annotations
+        data["i"] = x1
+        data["j"] = y1
         return TsAnnotation(json_data=data)
+
+    def dump(self, image_name: str):
+        return json.dumps([{
+            "image": image_name,
+            "annotations": [
+                {'label': a['class'],
+                 'coordinates': {'x': a['x'], 'y': a['y'], 'width': a['w'], 'height': a['h']}}
+                for a in self.data["annotations"]]
+        }], indent=4)
 
 
 class TsMTD(TsJson):
