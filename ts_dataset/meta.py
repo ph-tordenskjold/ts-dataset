@@ -72,7 +72,7 @@ class TsAnnotation(TsJson):
                 {'label': a['class'],
                  'coordinates': {'x': a['x'], 'y': a['y'], 'width': a['w'], 'height': a['h']}}
                 for a in self.data["annotations"]]
-        }], indent=4)
+        }], indent=4).encode('utf-8')
 
 
 class TsMTD(TsJson):

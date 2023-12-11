@@ -1,4 +1,3 @@
-import io
 import json
 import os
 import uuid
@@ -8,13 +7,6 @@ from pathlib import Path
 from ts_dataset.meta import TsAnnotation, TsMTD
 
 
-def _write_to_zip(zip_file, data, name):
-    buffer = io.BytesIO()
-    buffer.write(data)
-    zip_file.writestr(name, buffer.getvalue())
-    buffer.close()
-
-
 class TsDatasetBuilder:
     class TsAnnotationBuilder:
         def __enter__(self):
@@ -22,7 +14,7 @@ class TsDatasetBuilder:
 
         def __exit__(self, exc_type, exc_val, exc_tb):
             TsAnnotation(json_data=self._annotation).validate()
-            self._zip_file.writestr(self._annotation_path, json.dumps(self._annotation))
+            self._zip_file.writestr(self._annotation_path, json.dumps(self._annotation, indent=4).encode('utf-8'))
 
         def __init__(self, zip_file: zipfile.ZipFile, folder: str):
             self._images_path = os.path.join(folder, 'images')
@@ -85,7 +77,7 @@ class TsDatasetBuilder:
             mapping['labels'][label] = i
         self._mtd.update(**mapping)
         TsMTD(json_data=self._mtd).validate()
-        _write_to_zip(self.zip_file, json.dumps(self._mtd).encode('utf-8'), 'mtd.json')
+        self._zip_file.writestr('mtd.json', json.dumps(self._mtd, indent=4).encode('utf-8'))
         self.zip_file.close()
 
     def new_annotation(self, folder: str = str(uuid.uuid4())):

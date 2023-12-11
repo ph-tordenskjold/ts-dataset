@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ts-dataset"
-version = "0.1.2"
+version = "0.1.4"
 description = "Tordenskjold common dataset format and more"
 authors = ["ph <ph@tordenskjold.space>"]
 license = "MIT"
