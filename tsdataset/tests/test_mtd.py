@@ -4,8 +4,8 @@ import unittest
 
 import jsonschema.exceptions
 
-from ts_dataset import settings
-from ts_dataset.meta import TsMTD
+from tsdataset import settings
+from tsdataset.meta import TsMTD
 
 
 class TestMTD(unittest.TestCase):

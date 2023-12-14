@@ -4,8 +4,7 @@ import os
 
 import jsonschema
 
-from ts_dataset import settings
-from ts_dataset.bbox import BBox
+from tsdataset import settings, BBox
 
 
 class TsJson(abc.ABC):

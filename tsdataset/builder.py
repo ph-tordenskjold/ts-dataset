@@ -4,7 +4,7 @@ import uuid
 import zipfile
 from pathlib import Path
 
-from ts_dataset.meta import TsAnnotation, TsMTD
+from tsdataset.meta import TsAnnotation, TsMTD
 
 """ Usage example:
 

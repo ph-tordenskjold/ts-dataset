@@ -2,7 +2,7 @@ import json
 import os
 import typing
 
-from ts_dataset.meta import TsMTD, TsAnnotation
+from tsdataset.meta import TsMTD, TsAnnotation
 
 
 class TsDataset:
