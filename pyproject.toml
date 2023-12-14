@@ -5,7 +5,7 @@ description = "Tordenskjold common dataset format and more"
 authors = ["ph <ph@tordenskjold.space>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "ts_dataset"}]
+packages = [{include = "tsdataset"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
