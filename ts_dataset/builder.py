@@ -6,6 +6,39 @@ from pathlib import Path
 
 from ts_dataset.meta import TsAnnotation, TsMTD
 
+""" Usage example:
+
+with TsDatasetBuilder(name='test', folder=folder) as builder:
+    for raster_path in paths:
+        bboxes = get_bboxes()
+        with rasterio.open(raster_path) as raster:
+            for i in range(0, raster.width, step_size):
+                for j in range(0, raster.height, step_size):
+                    window_box = ts_dataset.BBox(**{'x1': i, 'y1': j, 'x2': i + step_size, 'y2': j + step_size})
+                    intersecting_bboxes = [bbox for bbox in bboxes if bbox.intersects(window_box)]
+                    if any(intersecting_bboxes):
+                        with builder.new_annotation(scene.identifier) as annotation_builder:
+                            cropped_raster = raster.read(window=Window(i, j, step_size, step_size))
+                            cbox = ts_dataset.BBox(**{'x1': i, 'y1': j,
+                                                  'w': cropped_raster.shape[-1],
+                                                  'h': cropped_raster.shape[-2]})
+                            for bbox in intersecting_bboxes:
+                                if bbox.intersects(cbox):
+                                    bbox = bbox.get_intersecting_box(cbox).reference(i, j)
+                                    annotation_builder.add_bbox(**{**bbox.bbox_dict, **bbox.meta})
+                            annotation_builder.add_property(
+                                        **{'scene_name': scene.name, 'scene_id': scene.identifier,
+                                           'timestamp': scene.timestamp.isoformat(),
+                                           'i': i, 'j': j, 'width': cropped_raster.shape[-1],
+                                           'height': cropped_raster.shape[-2]})
+                            with NamedTemporaryFile(suffix='.npy') as tmp:
+                                numpy.save(tmp, cropped_raster[0])
+                                annotation_builder.add_image(tmp, 'cross')
+                            with NamedTemporaryFile(suffix='.npy') as tmp:
+                                numpy.save(tmp, cropped_raster[1])
+                                annotation_builder.add_image(tmp, 'co')
+"""
+
 
 class TsDatasetBuilder:
     class TsAnnotationBuilder:
@@ -19,7 +52,7 @@ class TsDatasetBuilder:
         def __init__(self, zip_file: zipfile.ZipFile, folder: str):
             self._images_path = os.path.join(folder, 'images')
             self._annotation_id = str(uuid.uuid4()) + '.json'
-            self._annotation_path = os.path.join(folder, 'annotations', str(uuid.uuid4()) + '.json')
+            self._annotation_path = os.path.join(folder, 'annotations', self._annotation_id)
             self._metas_path = os.path.join(folder, 'meta')
             self._look_path = os.path.join(folder, 'look')
 
@@ -67,7 +100,7 @@ class TsDatasetBuilder:
         self._labels.append(label)
 
     def __enter__(self):
-        self._zip_file = zipfile.ZipFile(self._zip_path, 'w')
+        self._zip_file = zipfile.ZipFile(self._zip_path, 'w', zipfile.ZIP_DEFLATED)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

@@ -5,6 +5,7 @@ import os
 import jsonschema
 
 from ts_dataset import settings
+from ts_dataset.bbox import BBox
 
 
 class TsJson(abc.ABC):
@@ -44,26 +45,34 @@ class TsAnnotation(TsJson):
         super().__init__(json_data)
         self._schema = 'annotation_schema.json'
 
-    def crop(self, x1, y1, x2, y2) -> 'TsAnnotation':  # TODO add tests
-        data = self.data.copy()
-        annotations = data["annotations"]
+    def crop(self, x1, y1, x2, y2) -> 'TsAnnotation':
+        bbox = BBox(**{'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2})
         cropped_annotations = []
-        for annotation in annotations:
-            x, y, w, h = annotation["x"], annotation["y"], annotation["w"], annotation["h"]
-            x = max(0, min(x - x1, x2 - x1))
-            y = max(0, min(y - y1, y2 - y1))
-            w = min(x2 - x1 - x, w)
-            h = min(y2 - y1 - y, h)
-            if w > 0 and h > 0:
-                annotation["x"] = x
-                annotation["y"] = y
-                annotation["w"] = w
-                annotation["h"] = h
-                cropped_annotations.append(annotation)
-        data["annotations"] = cropped_annotations
+        data = self.data.copy()
+        data["annotations"] = []
         data["i"] = x1
         data["j"] = y1
+        for annotation in self.data["annotations"]:
+            b = BBox(**annotation)
+            if b.intersects(bbox):
+                ibox = b.get_intersecting_box(bbox).reference(x1, y1)
+                data['annotations'].append({
+                    **ibox.bbox_dict,
+                    **ibox.meta,
+                })
+                cropped_annotations.append(annotation)
         return TsAnnotation(json_data=data)
+
+    @property
+    def bboxes(self):
+        return [BBox(**d) for d in self.data['annotations']]
+
+    @property
+    def images(self):
+        return self.data['images']
+
+    def __len__(self):
+        return len(self.bboxes)
 
     def dump(self, image_name: str):
         return json.dumps([{
@@ -80,3 +89,10 @@ class TsMTD(TsJson):
     def __init__(self, json_data: dict = None):
         super().__init__(json_data=json_data)
         self._schema = 'mtd_schema.json'
+
+    @property
+    def annotations(self):
+        return self.data['annotations']
+
+    def __len__(self):
+        return len(self.data['annotations'])
